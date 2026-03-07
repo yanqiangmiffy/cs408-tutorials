@@ -210,7 +210,7 @@ def dfs_recursive(graph: GraphAdjList, u: int, visited=None, result=None) -> lis
 
 ---
 
-## 3. 最小生成树（MST）<a id="mst"></a
+## 3. 最小生成树（MST）<a id="mst"></a>
 
 **问题**：在连通带权图中找一棵权值和最小的生成树（包含所有顶点，无环）。
 
