@@ -207,3 +207,9 @@ marimo/_lsp/
 __marimo__/
 
 .idea
+
+
+docs/node_modules
+
+docs/docs/.vitepress/cache
+docs/docs/.vitepress/dist
