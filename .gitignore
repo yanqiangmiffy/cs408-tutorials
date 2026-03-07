@@ -211,5 +211,5 @@ __marimo__/
 
 docs/node_modules
 
-docs/docs/.vitepress/cache
-docs/docs/.vitepress/dist
+docs/content/.vitepress/cache
+docs/content/.vitepress/dist

@@ -113,7 +113,7 @@ export default defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/yanqiangmiffy/cs408-tutorials/edit/main/docs/docs/:path',
+      pattern: 'https://github.com/yanqiangmiffy/cs408-tutorials/edit/main/docs/content/:path',
       text: '在 GitHub 上编辑此页'
     },
 
