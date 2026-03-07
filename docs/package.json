@@ -8,6 +8,7 @@
     "docs:preview": "vitepress preview content"
   },
   "devDependencies": {
-    "vitepress": "^1.3.4"
+    "vitepress": "^1.3.4",
+    "vitepress-theme-teek": "^1.5.5"
   }
 }

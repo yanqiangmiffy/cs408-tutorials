@@ -1,6 +1,10 @@
 import { defineConfig } from 'vitepress'
+import { defineTeekConfig } from "vitepress-theme-teek/config";
+
+const teekConfig = defineTeekConfig({});
 
 export default defineConfig({
+  extends: teekConfig,
   base: '/cs408-tutorials/',
   lang: 'zh-CN',
   title: '408数据结构 · Python实现',

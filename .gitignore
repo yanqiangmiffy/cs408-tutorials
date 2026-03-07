@@ -213,3 +213,4 @@ docs/node_modules
 
 docs/content/.vitepress/cache
 docs/content/.vitepress/dist
+temp-theme
