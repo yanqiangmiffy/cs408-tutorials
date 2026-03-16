@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)"
+    ]
+  },
+  "allowedTools": [
+    "Bash(git *)",
+    "Bash(npm *)",
+    "Bash(mkdir *)",
+    "Bash(ls *)",
+    "Edit",
+    "Write"
+  ]
+}

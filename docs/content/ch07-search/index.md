@@ -179,7 +179,7 @@ def bst_search(root: BSTNode, key: int) -> BSTNode:
     5
    /
   3
-   \
+  \
     6
 ```
 
@@ -190,7 +190,7 @@ def bst_search(root: BSTNode, key: int) -> BSTNode:
     / \
    3   8
   /   / \
- 1   6   9
+  1   6   9
 
 删除5(有左右孩子):
 
@@ -198,16 +198,16 @@ def bst_search(root: BSTNode, key: int) -> BSTNode:
 用6替换5的位置:
      6
     / \
-   3   8
-  /     \
- 1       9
+  3   8
+  /       \
+  1       9
 
 删除原6结点(最多一个右孩子):
      6
     / \
-   3   8
+  3   8
   /       \
- 1         9
+  1       9
 ```
 
 ### BST完整实现
@@ -315,8 +315,8 @@ class BST:
      y
     /
    x
-    \
-    T2
+  \
+   T2
 
 步骤1(左旋y):
        z
@@ -360,7 +360,7 @@ class AVLNode:
         return self.get_height(self.left) - self.get_height(self.right)
 
 
-class AVLAVL:
+class AVLTree:
     def __init__(self):
         self.root = None
 
@@ -541,13 +541,13 @@ class LinearProbingHashTable:
        [None, [1], None, [3], [4]]
 
 插入8: hash(8)=3, table[3]=[3]→[8]
-       [None, [1], None, [3→8], [4]]
+       [None, [1], None, [3,8], [4]]
 
 插入5: hash(5)=0, table[0]=[5]
-       [[5], [1], None, [3→8], [4]]
+       [[5], [1], None, [3,8], [4]]
 
 插入2: hash(2)=2, table[2]=[2]
-       [[5], [1], [2], [3→8], [4]]
+       [[5], [1], [2], [3,8], [4]]
 ```
 
 ```python
@@ -606,6 +606,8 @@ class ChainingHashTable:
 
 ---
 
+---
+
 ## 6. 考研重点 & 易错点
 
 ### 高频考点
@@ -616,7 +618,7 @@ class ChainingHashTable:
 | **BST删除** | 三种情况，尤其是有两个孩子的处理 |
 | **AVL旋转** | LL、RR、LR、RL四种旋转类型 |
 | **散列冲突** | 线性探测、拉链法及其ASL计算 |
-| **装填因子** | α=n/m，影响散列表查找效率 |
+|**装填因子** | α=n/m，影响散列表查找效率 |
 
 ### 易错点
 
