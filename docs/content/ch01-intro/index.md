@@ -71,11 +71,11 @@ def example1(n):
 
 ```python
 def example2(n):
-    for i in range(n):       # O(1)
+    for i in range(n):       # On)
         pass
     for j in range(n*n):     # O(n²)
         pass
-    # 总复杂度 = O(1) + O(n²) = O(n²)
+    # 总复杂度 = O(n) + O(n²) = O(n²)
 ```
 
 **计算思路**：并列取最大值
