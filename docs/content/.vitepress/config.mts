@@ -87,9 +87,16 @@ export default defineConfig({
       }],
       '/ch07-search/': [{
         text: '第7章 查找', items: [
-          { text: '顺序/折半/分块查找', link: '/ch07-search/#basic' },
-          { text: 'BST & AVL树', link: '/ch07-search/#bst-avl' },
+          { text: '顺序查找', link: '/ch07-search/#sequential' },
+          { text: '折半查找', link: '/ch07-search/#binary' },
+          { text: '分块查找', link: '/ch07-search/#block' },
+          { text: 'BST 二叉排序树', link: '/ch07-search/#bst' },
+          { text: 'AVL 平衡二叉树', link: '/ch07-search/#avl' },
+          { text: 'B树', link: '/ch07-search/#btree' },
+          { text: 'B+树', link: '/ch07-search/#bplustree' },
+          { text: '红黑树', link: '/ch07-search/#redblack' },
           { text: '散列表', link: '/ch07-search/#hash' },
+          { text: '复杂度总结', link: '/ch07-search/#summary' },
         ]
       }],
       '/ch08-sort/': [{
