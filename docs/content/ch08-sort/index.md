@@ -200,25 +200,148 @@ def shell_sort(arr):
 
 ## 5. 快速排序 (Quick Sort)
 
-**核心思想**：分治策略。选末尾元素为 pivot，partition 后 pivot 左边全 ≤ pivot，右边全 > pivot，pivot 归位。递归处理两侧。最坏情况（有序数组）退化 O(n²)。
+**核心思想**：分治策略。选 pivot 元素，partition 后 pivot 左边全 ≤ pivot，右边全 > pivot，pivot 归位。递归处理两侧。最坏情况（有序数组）退化 O(n²)。
 
-**关键步骤**：
-1. `partition`：`i=low-1`，`j` 遍历 `low~high-1`
-2. `arr[j] ≤ pivot` 时 `i++`，交换 `arr[i]` 和 `arr[j]`
-3. 循环结束，交换 `arr[i+1]` 和 `arr[high]`，返回 `i+1`
-4. 递归对 `[low, pi-1]` 和 `[pi+1, high]` 排序
+### 5.1 Pivot 选择策略
 
-**手写排序过程**（初始: `[5, 3, 8, 1, 9, 2]`）：
+| Pivot 选择 | 方式 | 特点 | 考研考点 |
+|-----------|------|------|----------|
+| **末尾元素** | `pivot = arr[high]` | 简单易写，最坏时有序数组退化为 O(n²) | ⭐ 常考 |
+| **首元素** | `pivot = arr[low]` | 同末尾，最坏时有序数组退化 | ⭐ 常考 |
+| **中间元素** | `pivot = arr[(low+high)//2]` | 略优于首末 | 次常考 |
+| **随机元素** | `pivot = arr[random]` | 平均情况最优，避免最坏 | 了解 |
+| **三数取中** | 取首、中、末的中位数 | 实用优化，避免最坏 | 了解 |
+
+> **王道考研提示**：手写时常用末尾或首元素作为 pivot，便于考试演示
+
+---
+
+### 5.2 分区策略
+
+#### ① 王道挖坑法（Wang Dao Hole Method）
+
+**核心思想**：用 pivot 挖一个"坑"，从两边向中间交替填坑，最后把 pivot 放入最终坑位。
 
 ```
-初始        → [5, 3, 8, 1, 9, 2]  pivot=2(末尾)
-partition   → [1, 2, 8, 5, 9, 3]  2 归位 idx=1
-左递归      → [1, 2, 8, 5, 9, 3]  [1] 归位
-右递归      → [1, 2, 3, 5, 8, 9]  [8,5,9,3] 继续分
-完成        → [1, 2, 3, 5, 8, 9]
+初始: [5, 3, 8, 1, 9, 2]  pivot=arr[0]=5, 挖坑位置 low=0
+
+第1步: 2填入坑位 → [2, 3, 8, 1, 9, □]  坑位移到 high=5
+第2步: 8填入坑位 → [2, 3, □, 1, 9, 8]  坑位移到 low=2
+第3步: 1填入坑位 → [2, 3, 1, □, 9, 8]  坑位移到 high=3
+第4步: pivot放坑位 → [2, 3, 1, 5, 9, 8]  pivot归位 idx=3
+
+递归: [2,3,1] 和 [9,8]
 ```
 
-**Python 实现**：
+**王道挖坑法代码**：
+
+```python
+def partition_hole(arr, low, high):
+    """王道挖坑法分区"""
+    pivot = arr[low]  # 挖坑，取出 pivot
+    while low < high:
+        # 从右向左找比 pivot 小的元素填坑
+        while low < high and arr[high] >= pivot:
+            high -= 1
+        arr[low] = arr[high]  # 填坑，新坑位在 high
+
+        # 从左向右找比 pivot 大的元素填坑
+        while low < high and arr[low] <= pivot:
+            low += 1
+        arr[high] = arr[low]  # 填坑，新坑位在 low
+
+    arr[low] = pivot  # pivot 归位
+    return low  # 返回 pivot 最终位置
+```
+
+---
+
+#### ② Lomuto 分区（单指针正向扫描）
+
+**核心思想**：用单指针 `i` 维护"≤ pivot"区域的边界，指针 `j` 正向扫描整个区间。
+
+```
+初始: [5, 3, 8, 1, 9, 2]  pivot=arr[high]=2
+指针:  i=-1, j 从 0 扫到 5
+
+j=0: arr[0]=5 > pivot, i不变
+j=1: arr[1]=3 > pivot, i不变
+j=2: arr[2]=8 > pivot, i不变
+j=3: arr[3]=1 ≤ pivot, i=0, 交换 arr[0]↔arr[3] → [1,3,8,5,9,2]
+j=4: arr[4]=9 > pivot, i不变
+
+循环结束: 交换 arr[i+1]↔arr[high] → [1,2,8,5,9,3]
+pivot 归位 idx=1
+```
+
+**Lomuto 分区代码**：
+
+```python
+def partition_lomuto(arr, low, high):
+    """Lomuto 分区：单指针 j 正向扫描"""
+    pivot = arr[high]  # pivot 取自最后一个元素
+    i = low - 1  # i 维护 ≤ pivot 区域的边界
+
+    for j in range(low, high):  # j 正向扫描
+        if arr[j] <= pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]  # 交换
+
+    # pivot 归位
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+```
+
+---
+
+#### ③ Hoare 分区（双指针对向夹逼）
+
+**核心思想**：双指针 `i` 从左、`j` 从右向中间夹逼，相遇时返回边界。
+
+```
+初始: [5, 3, 8, 1, 9, 2]  pivot=arr[low]=5
+指针:  i=low, j=high
+
+第1轮: i右移找≥5 → i=0(arr[0]=5), j左移找≤5 → j=5(arr[5]=2)
+       交换 arr[0]↔arr[5] → [2, 3, 8, 1, 9, 5]
+第2轮: i右移找≥5 → i=2(arr[2]=8), j左移找≤5 → j=3(arr[3]=1)
+       交换 arr[2]↔arr[3] → [2, 3, 1, 8, 9, 5]
+第3轮: i右移找≥5 → i=3(arr[3]=8), j左移找≤5 → j=2
+       i>j，退出循环
+
+返回边界 j=2，递归 [2,3,1] 和 [8,9,5]
+```
+
+**Hoare 分区代码**：
+
+```python
+def partition_hoare(arr, low, high):
+    """Hoare 分区：双指针 i/j 对向夹逼"""
+    pivot = arr[low]  # pivot 取自第一个元素
+    i, j = low, high
+
+    while i <= j:
+        # i 向右找 ≥ pivot 的元素
+        while i <= j and arr[i] < pivot:
+            i += 1
+        # j 向左找 ≤ pivot 的元素
+        while i <= j and arr[j] > pivot:
+            j -= 1
+        if i <= j:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+            j -= 1
+
+    return j  # 返回分割点
+```
+
+> **注意**：Hoare 分区返回的是分割点 `j`，递归时注意边界：`[low, j]` 和 `[j+1, high]`
+
+---
+
+### 5.3 快速排序实现
+
+**标准实现（Lomuto 分区 + 末尾 pivot）**：
 
 ```python
 def quick_sort(arr, low=0, high=None):
@@ -237,6 +360,7 @@ def quick_sort(arr, low=0, high=None):
     return arr
 
 def partition(arr, low, high):
+    """Lomuto 分区：pivot 取自末尾元素"""
     pivot = arr[high]
     i = low - 1
     for j in range(low, high):
@@ -246,6 +370,35 @@ def partition(arr, low, high):
     arr[i + 1], arr[high] = arr[high], arr[i + 1]
     return i + 1
 ```
+
+---
+
+### 5.4 手写排序过程
+
+**王道挖坑法示例**（初始: `[5, 3, 8, 1, 9, 2]`）：
+
+```
+初始        → [5, 3, 8, 1, 9, 2]  pivot=5(首元素)，挖坑 idx=0
+第1步2填坑 → [2, 3, 8, 1, 9, □]  坑位到 idx=5
+第2步8填坑 → [2, 3, □, 1, 9, 8]  坑位到 idx=2
+第3步1填坑 → [2, 3, 1, □, 9, 8]  坑位到 idx=3
+pivot归位   → [2, 3, 1, 5, 9, 8]  5 归位 idx=3
+左递归      → [1, 2, 3, 5, 9, 8]  [2,3,1] 排序
+右递归      → [1, 2, 3, 5, 8, 9]  [9,8] 排序
+完成        → [1, 2, 3, 5, 8, 9]
+```
+
+---
+
+### 5.5 考研重点速记
+
+| 策略 | 类型 | 考研特点 |
+|------|------|----------|
+| **王道挖坑法** | 双指针夹逼 | ⭐⭐⭐ 王道教材标准写法，常考 |
+| **Lomuto 分区** | 单指针正向 | ⭐⭐ 简单易写，适合手写 |
+| **Hoare 分区** | 双指针对向 | ⭐⭐ 原始 Hoare 版本 |
+
+> **口诀**：挖坑填坑，交替左右，最终归位
 
 ---
 
