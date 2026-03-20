@@ -18,6 +18,7 @@ const chapterNav: DefaultTheme.NavItemWithLink[] = [
   { text: '第7章 查找', link: '/ch07-search/' },
   { text: '第8章 排序', link: '/ch08-sort/' },
   { text: '剑指 Offer', link: '/ch09-offer/' },
+  { text: '408 真题', link: '/ch10-408qa/' },
 ]
 
 export default defineConfig({
@@ -232,6 +233,40 @@ export default defineConfig({
               { text: '48 不用加减乘除做加法', link: '/ch09-offer/48' },
               { text: '65 矩阵中的路径', link: '/ch09-offer/65' },
               { text: '66 机器人的运动范围', link: '/ch09-offer/66' },
+            ],
+          },
+        ],
+      }],
+      '/ch10-408qa/': [{
+        text: '第10章 408 大题真题',
+        items: [
+          { text: '总目录', link: '/ch10-408qa/' },
+          {
+            text: '2009-2016',
+            collapsed: true,
+            items: [
+              { text: '2009 第42题', link: '/ch10-408qa/2009' },
+              { text: '2010 第42题', link: '/ch10-408qa/2010' },
+              { text: '2011 第42题', link: '/ch10-408qa/2011' },
+              { text: '2012 第42题', link: '/ch10-408qa/2012' },
+              { text: '2013 第41题', link: '/ch10-408qa/2013' },
+              { text: '2014 第41题', link: '/ch10-408qa/2014' },
+              { text: '2015 第41题', link: '/ch10-408qa/2015' },
+              { text: '2016 第43题', link: '/ch10-408qa/2016' },
+            ],
+          },
+          {
+            text: '2017-2024',
+            collapsed: true,
+            items: [
+              { text: '2017 第41题', link: '/ch10-408qa/2017' },
+              { text: '2018 第41题', link: '/ch10-408qa/2018' },
+              { text: '2019 第41题', link: '/ch10-408qa/2019' },
+              { text: '2020 第41题', link: '/ch10-408qa/2020' },
+              { text: '2021 第41题', link: '/ch10-408qa/2021' },
+              { text: '2022 第41题', link: '/ch10-408qa/2022' },
+              { text: '2023 第41题', link: '/ch10-408qa/2023' },
+              { text: '2024 第41题', link: '/ch10-408qa/2024' },
             ],
           },
         ],
