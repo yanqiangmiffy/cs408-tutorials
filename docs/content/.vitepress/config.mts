@@ -2,7 +2,11 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 import { defineTeekConfig } from 'vitepress-theme-teek/config'
 
 const siteBase = '/cs408-tutorials/'
-const teekConfig = defineTeekConfig({})
+const teekConfig = defineTeekConfig({
+  codeBlock: {
+    collapseHeight: false,
+  },
+})
 
 const chapterNav: DefaultTheme.NavItemWithLink[] = [
   { text: '第1章 绪论', link: '/ch01-intro/' },
