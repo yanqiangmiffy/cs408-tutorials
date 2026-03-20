@@ -19,6 +19,7 @@ const chapterNav: DefaultTheme.NavItemWithLink[] = [
   { text: '第8章 排序', link: '/ch08-sort/' },
   { text: '剑指 Offer', link: '/ch09-offer/' },
   { text: '408 真题', link: '/ch10-408qa/' },
+  { text: '冲刺速记', link: '/ch11-sprint/' },
 ]
 
 export default defineConfig({
@@ -269,6 +270,23 @@ export default defineConfig({
               { text: '2024 第41题', link: '/ch10-408qa/2024' },
             ],
           },
+        ],
+      }],
+      '/ch11-sprint/': [{
+        text: '第11章 冲刺与速记',
+        items: [
+          { text: '总目录', link: '/ch11-sprint/' },
+          { text: '高频考点速记', link: '/ch11-sprint/01-high-frequency' },
+          { text: '手写模板库', link: '/ch11-sprint/02-handwriting-templates' },
+          { text: '易错点总表', link: '/ch11-sprint/03-mistakes' },
+          { text: '复杂度对比总表', link: '/ch11-sprint/04-complexity-comparison' },
+          { text: '真题题型索引', link: '/ch11-sprint/05-qa-taxonomy' },
+          { text: '大题答题模板', link: '/ch11-sprint/06-answer-templates' },
+          { text: '30 天复习路线', link: '/ch11-sprint/07-roadmap-30days' },
+          { text: '术语对照表', link: '/ch11-sprint/08-terminology' },
+          { text: '章节自测题', link: '/ch11-sprint/09-self-test' },
+          { text: '错题复盘模板', link: '/ch11-sprint/10-review-template' },
+          { text: '一页纸总结', link: '/ch11-sprint/11-cheatsheets' },
         ],
       }],
     },
