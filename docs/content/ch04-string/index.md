@@ -4,6 +4,24 @@
 
 ---
 
+## 0. 串的定义与特性
+
+| 概念 | 定义 / 特性 |
+|------|-------------|
+| **串（String）** | 由零个或多个字符组成的有限序列，通常记为 `S = "a₁a₂...aₙ"` |
+| **串长** | 串中字符个数；长度为 0 的串称为空串 `""` |
+| **空格串** | 由一个或多个空格组成，不是空串，长度大于 0 |
+| **主串 / 模式串** | 待查找的串称主串，被拿来匹配的串称模式串 |
+| **子串** | 串中任意连续字符组成的序列；不连续字符不能构成子串 |
+| **位置敏感** | 串中字符相同但顺序不同，通常视为不同的串 |
+
+**考试里最常问的几个点**：
+
+- 空串和空格串一定要区分。
+- 子串必须连续，子序列可以不连续。
+- 串是特殊的线性表，比较时通常按字符逐个进行。
+- 模式匹配题里，主串长度记为 `n`，模式串长度记为 `m`，复杂度通常写成 `O(n)`、`O(m)`、`O(nm)`、`O(n+m)`。
+
 ## 1. 朴素模式匹配（BF算法）<a id="naive"></a>
 
 **核心思想**：从主串的每个位置开始，依次与模式串比较。匹配失败时，主串指针向后移一位，模式串指针重置为0，重新开始比较。
@@ -14,24 +32,24 @@
 
 ### 匹配过程（手写示例）
 
-**主串**: `"ABABCABCABABCD"` (n=13)
-**模式串**: `"ABCAB"` (m=5)
+**主串**: `"ABABABC"` (n=7)  
+**模式串**: `"ABABC"` (m=5)
 
 ```
 第1轮 i=0:
-  主串:  A B A B C A B C A B A B C D
-  模式:  A B C A B
-  比较:  A==A, B==B, A!=C ✗ 失败！
+  主串:  A B A B A B C
+  模式:  A B A B C
+  比较:  A==A, B==B, A==A, B==B, A!=C ✗ 失败！
 
 第2轮 i=1:
-  主串:  A B A B C A B C A B A B C D
-  模式:    A B C A B
-  比较:  B==A ✗ 失败！
+  主串:  A B A B A B C
+  模式:    A B A B C
+  比较:  B!=A ✗ 失败！
 
 第3轮 i=2:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  比较:  A==A, B==B, C==C, A==A, B==B ✓ 匹配成功！
+  主串:  A B A B A B C
+  模式:      A B A B C
+  比较:  A==A, B==B, A==A, B==B, C==C ✓ 匹配成功！
 
 返回: 2
 ```
@@ -82,6 +100,11 @@ def naive_match(text: str, pattern: str) -> int:
 - 前缀：从开头到某位置（不包括整个串）
 - 后缀：从某位置到结尾（不包括整个串）
 
+> 说明：教材里常见两种记法。  
+> 1. **手算版扩展 next**：长度为 `m+1`，便于推演匹配过程。  
+> 2. **代码版 next**：长度为 `m`，更常见于程序实现。  
+> 本文两种都会给出，避免概念和代码对不上。
+
 ### 手工计算next数组
 
 **模式串**: `"ABABC"`
@@ -95,84 +118,94 @@ def naive_match(text: str, pattern: str) -> int:
 | 4 | `"ABAB"` | `"A"`, `"AB"`, `"ABA"` | `"BAB"`, `"AB"`, `"B"` | `"AB"` | 2 |
 | 5 | `"ABABC"` | `"A"`, `"AB"`, `"ABA"`, `"ABAB"` | `"BABC"`, `"ABC"`, `"BC"`, `"C"` | 无 | 0 |
 
-**next数组**: `[-1, 0, 0, 1, 2, 0]`
+**手算版扩展 next**: `[-1, 0, 0, 1, 2, 0]`  
+**代码版 next**: `[-1, 0, 0, 1, 2]`
 
 ### next数组计算过程
 
 **模式串**: `"ABABC"`
 
 ```
-j=0, k=-1: next[0]=-1
+j=0, k=-1:  next[0] = -1
 
-j=1, k=-1: k==-1, j++, k++
-         next[1]=0
+j=0, k=-1:  k==-1，令 j=1, k=0
+            next[1] = 0
 
-j=2, k=0:  pattern[2]='C' != pattern[0]='A'
-         k=next[k]=-1
-j=2, k=-1: k==-1, j++, k++
-         next[2]=0
+j=1, k=0:   pattern[1]='B' != pattern[0]='A'
+            k = next[0] = -1
+j=1, k=-1:  k==-1，令 j=2, k=0
+            next[2] = 0
 
-j=3, k=0:  pattern[3]='A' == pattern[0]='A'
-         j++, k++, next[3]=1
+j=2, k=0:   pattern[2]='A' == pattern[0]='A'
+            令 j=3, k=1
+            next[3] = 1
 
-j=4, k=1:  pattern[4]='B' == pattern[1]='B'
-         j++, k++, next[4]=2
+j=3, k=1:   pattern[3]='B' == pattern[1]='B'
+            令 j=4, k=2
+            next[4] = 2
 
-j=5, k=2:  j==m 结束
+j=4, k=2:   pattern[4]='C' != pattern[2]='A'
+            k = next[2] = 0
+j=4, k=0:   pattern[4]='C' != pattern[0]='A'
+            k = next[0] = -1
+j=4, k=-1:  k==-1，令 j=5, k=0
+            next[5] = 0
 
-结果: next = [-1, 0, 0, 1, 2, 0]
+结果:
+扩展 next = [-1, 0, 0, 1, 2, 0]
+代码版 next = [-1, 0, 0, 1, 2]
 ```
 
 ### KMP匹配过程（手写示例）
 
-**主串**: `"ABABCABCABABCD"`
-**模式串**: `"ABCAB"`
-**next数组**: `[-1, 0, 0, 1, 2, 0]`
+**主串**: `"ABABABC"`  
+**模式串**: `"ABABC"`  
+**代码版 next数组**: `[-1, 0, 0, 1, 2]`
 
 ```
 初始 i=0, j=0:
-  主串:  A B A B C A B C A B A B C D
-  模式:  A B C A B
+  主串:  A B A B A B C
+  模式:  A B A B C
   i=0, j=0: A==A, i++, j++
 
 i=1, j=1:
-  主串:  A B A B C A B C A B A B C D
-  模式:  A B C A B
+  主串:  A B A B A B C
+  模式:  A B A B C
   i=1, j=1: B==B, i++, j++
 
 i=2, j=2:
-  主串:  A B A B C A B C A B A B C D
-  模式:  A B C A B
-  i=2, j=2: A!=C ✗ 失败！
-  j=next[2]=0 (模式串指针回退)
+  主串:  A B A B A B C
+  模式:  A B A B C
+  i=2, j=2: A==A, i++, j++
 
-i=2, j=0:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  i=2, j=0: A==A, i++, j++
+i=3, j=3:
+  主串:  A B A B A B C
+  模式:  A B A B C
+  i=3, j=3: B==B, i++, j++
 
-i=3, j=1:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  i=3, j=1: B==B, i++, j++
+i=4, j=4:
+  主串:  A B A B A B C
+  模式:  A B A B C
+  i=4, j=4: A!=C ✗ 失败！
+  j = next[4] = 2，主串指针 i 不回退
 
 i=4, j=2:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  i=4, j=2: C==C, i++, j++
+  主串:  A B A B A B C
+  模式:      A B A B C
+  i=4, j=2: A==A, i++, j++
 
 i=5, j=3:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  i=5, j=3: A==A, i++, j++
+  主串:  A B A B A B C
+  模式:      A B A B C
+  i=5, j=3: B==B, i++, j++
 
 i=6, j=4:
-  主串:  A B A B C A B C A B A B C D
-  模式:      A B C A B
-  i=6, j=4: B==B, i++, j++
+  主串:  A B A B A B C
+  模式:      A B A B C
+  i=6, j=4: C==C, i++, j++
 
-j==5 (m) ✓ 匹配成功！
-返回 i-j = 6-5 = 1
+j==5 (m) ✓ 匹配成功
+返回 i-j = 7-5 = 2
 ```
 
 ### Python实现
@@ -235,8 +268,8 @@ def kmp_match(text: str, pattern: str) -> int:
 
 
 if __name__ == "__main__":
-    text = "ABABCABCABABCD"
-    pattern = "ABCAB"
+    text = "ABABABC"
+    pattern = "ABABC"
 
     print(f"主串: {text}")
     print(f"模式串: {pattern}")
@@ -373,8 +406,8 @@ def kmp_match(text: str, pattern: str) -> int:
 
 
 if __name__ == "__main__":
-    text = "ABABCABCABABCD"
-    pattern = "ABCAB"
+    text = "ABABABC"
+    pattern = "ABABC"
 
     print("=" * 40)
     print(f"主串: {text}")
@@ -395,3 +428,22 @@ if __name__ == "__main__":
     print(f"朴素匹配: O(m×n) = O({len(pattern)}×{len(text)}) = O({len(pattern) * len(text)})")
     print(f"KMP算法: O(m+n) = O({len(pattern)}+{len(text)}) = O({len(pattern) + len(text)})")
 ```
+
+## 常考题型与相关算法题
+
+### 常考点
+
+- 串、子串、子序列、空串、空格串的区别。
+- 朴素匹配为什么最坏是 `O(nm)`。
+- `next` / `nextval` 的手工计算，尤其是最长相等前后缀的判断。
+- KMP 失配时 **主串指针不回退**，只调整模式串指针。
+
+### 相关算法题
+
+| 题目 | 训练点 |
+|------|--------|
+| LeetCode 28. 找出字符串中第一个匹配项的下标 | 朴素匹配 / KMP 基础 |
+| LeetCode 459. 重复的子字符串 | 前后缀、周期串 |
+| LeetCode 796. 旋转字符串 | 串匹配思路 |
+| LeetCode 1392. 最长快乐前缀 | `next` 数组本质 |
+| LeetCode 214. 最短回文串 | KMP 前缀函数的综合应用 |

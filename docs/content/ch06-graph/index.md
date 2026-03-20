@@ -729,3 +729,24 @@ if __name__ == "__main__":
     print(f"BFS从顶点1: {bfs(graph, 1)}")
     print(f"DFS从顶点1: {dfs(graph, 1)}")
 ```
+
+## 常考题型与相关算法题
+
+### 常考点
+
+- 邻接矩阵与邻接表的适用场景和复杂度比较。
+- BFS / DFS 的访问顺序、`visited` 数组的使用。
+- Prim 与 Kruskal 的适用图类型和复杂度。
+- Dijkstra 不能处理负权边，Floyd 可以处理负权边但不能有负环。
+- 拓扑排序只适用于 DAG，关键路径建立在 AOE 网基础上。
+
+### 相关算法题
+
+| 题目 | 训练点 |
+|------|--------|
+| LeetCode 200. 岛屿数量 | DFS / BFS |
+| LeetCode 547. 省份数量 | 图遍历 / 并查集 |
+| LeetCode 207. 课程表 | 拓扑排序判环 |
+| LeetCode 210. 课程表 II | 拓扑序输出 |
+| LeetCode 743. 网络延迟时间 | 单源最短路 |
+| LeetCode 1584. 连接所有点的最小费用 | 最小生成树 |
