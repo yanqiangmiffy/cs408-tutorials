@@ -5,9 +5,9 @@
 ## 🚀 本地预览
 
 ```bash
-npm install
+npm ci
 npm run docs:dev
-# 打开 http://localhost:5173/cs408-tutorials/
+# 打开终端输出中的本地地址，通常是 http://localhost:5173/
 ```
 
 ## 📦 部署到 GitHub Pages

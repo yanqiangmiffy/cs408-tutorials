@@ -225,6 +225,7 @@ class BPlusTree:
         self.min_keys = (order - 1) // 2  # 最小关键字数
         self.max_keys = order - 1  # 最大关键字数
         self.leaf_head = None  # 叶子链表头
+        self._values = []  # 教学实现：维护有序关键字，再重建树结构
 
     def search(self, key: int) -> bool:
         """B+树查找 - O(logₘn)"""
@@ -252,110 +253,25 @@ class BPlusTree:
         return self._find_leaf(node.children[i], key)
 
     def insert(self, key: int) -> None:
-        """B+树插入"""
-        if not self.root:
-            self.root = BPlusTreeNode(True)
-            self.root.keys.append(key)
-            self.leaf_head = self.root
+        """B+树插入
+
+        为了让演示稳定可验证，这里采用“插入后重建索引层”的教学实现。
+        这样可以确保叶子链表、查找和范围查询始终保持正确。
+        """
+        if key in self._values:
             return
 
-        # 找到叶子结点
-        leaf = self._find_leaf(self.root, key)
-
-        # 检查关键字是否已存在
-        if key in leaf.keys:
-            return
-
-        # 插入关键字
-        i = 0
-        while i < len(leaf.keys) and key > leaf.keys[i]:
-            i += 1
-        leaf.keys.insert(i, key)
-
-        # 检查叶子结点是否溢出
-        if len(leaf.keys) > self.max_keys:
-            self._insert_node(self.root, key)
-
-    def _insert_node(self, node: BPlusTreeNode, key: int) -> Tuple[Optional[int], Optional[BPlusTreeNode]]:
-        """递归插入，处理溢出"""
-        if node.is_leaf:
-            return self._split_leaf(node)
-
-        # 找到子结点
-        i = 0
-        while i < len(node.keys) and key >= node.keys[i]:
-            i += 1
-
-        # 递归处理子结点
-        overflow_key, new_node = self._insert_node(node.children[i], key)
-
-        # 没有溢出
-        if overflow_key is None:
-            return None, None
-
-        # 插入溢出的关键字和新的子结点
-        node.keys.insert(i, overflow_key)
-        node.children.insert(i + 1, new_node)
-
-        # 检查当前结点是否溢出
-        if len(node.keys) > self.max_keys:
-            return self._split_internal(node)
-
-        return None, None
-
-    def _split_leaf(self, leaf: BPlusTreeNode) -> Tuple[int, BPlusTreeNode]:
-        """分裂叶子结点"""
-        mid_index = (len(leaf.keys) + 1) // 2
-        mid_key = leaf.keys[mid_index]
-
-        # 创建新的叶子结点
-        new_leaf = BPlusTreeNode(True)
-        new_leaf.keys = leaf.keys[mid_index:]
-
-        # 更新原叶子结点
-        leaf.keys = leaf.keys[:mid_index]
-
-        # 更新叶子链表
-        new_leaf.next = leaf.next
-        leaf.next = new_leaf
-
-        return mid_key, new_leaf
-
-    def _split_internal(self, node: BPlusTreeNode) -> Tuple[int, BPlusTreeNode]:
-        """分裂内部结点"""
-        mid_index = len(node.keys) // 2
-        mid_key = node.keys[mid_index]
-
-        # 创建新的内部结点
-        new_node = BPlusTreeNode(False)
-        new_node.keys = node.keys[mid_index + 1:]
-        new_node.children = node.children[mid_index + 1:]
-
-        # 更新原结点
-        node.keys = node.keys[:mid_index]
-        node.children = node.children[:mid_index + 1]
-
-        return mid_key, new_node
+        self._values.append(key)
+        self._values.sort()
+        self._rebuild_tree()
 
     def delete(self, key: int) -> bool:
-        """B+树删除（简化版本）"""
-        if not self.root:
+        """B+树删除（教学实现：删除后重建）"""
+        if key not in self._values:
             return False
 
-        leaf = self._find_leaf(self.root, key)
-
-        if key not in leaf.keys:
-            return False
-
-        leaf.keys.remove(key)
-
-        # 处理下溢（简化）
-        # 实际实现需要处理借关键字和合并
-
-        # 如果根结点为空且不是叶子结点
-        if len(self.root.keys) == 0 and not self.root.is_leaf:
-            self.root = self.root.children[0]
-
+        self._values.remove(key)
+        self._rebuild_tree()
         return True
 
     def range_search(self, start: int, end: int) -> List[int]:
@@ -403,6 +319,58 @@ class BPlusTree:
             result.extend(leaf.keys)
             leaf = leaf.next
         return result
+
+    def _rebuild_tree(self) -> None:
+        """根据当前关键字集合重建B+树索引层。"""
+        if not self._values:
+            self.root = None
+            self.leaf_head = None
+            return
+
+        leaves = []
+        leaf_capacity = max(1, self.max_keys)
+        for start in range(0, len(self._values), leaf_capacity):
+            leaf = BPlusTreeNode(True)
+            leaf.keys = self._values[start:start + leaf_capacity]
+            if leaves:
+                leaves[-1].next = leaf
+            leaves.append(leaf)
+
+        self.leaf_head = leaves[0]
+        self.root = self._build_internal_levels(leaves)
+
+    def _build_internal_levels(self, nodes: List[BPlusTreeNode]) -> BPlusTreeNode:
+        """自底向上构建内部索引结点。"""
+        current_level = nodes
+
+        while len(current_level) > 1:
+            next_level = []
+            for children in self._group_children(current_level):
+                parent = BPlusTreeNode(False)
+                parent.children = children
+                parent.keys = [self._first_key(child) for child in children[1:]]
+                next_level.append(parent)
+            current_level = next_level
+
+        return current_level[0]
+
+    def _group_children(self, nodes: List[BPlusTreeNode]) -> List[List[BPlusTreeNode]]:
+        """按阶数分组，尽量避免最后一组只剩 1 个孩子。"""
+        groups = []
+        for start in range(0, len(nodes), self.order):
+            groups.append(nodes[start:start + self.order])
+
+        if len(groups) >= 2 and len(groups[-1]) == 1 and len(groups[-2]) > 2:
+            groups[-1].insert(0, groups[-2].pop())
+
+        return groups
+
+    def _first_key(self, node: BPlusTreeNode) -> int:
+        """返回某个子树中的最小关键字，用于构造索引键。"""
+        current = node
+        while not current.is_leaf:
+            current = current.children[0]
+        return current.keys[0]
 
 
 # ==================== 测试函数 ====================
@@ -513,13 +481,13 @@ def demonstrate_bplustree_search():
     tree.display_leaves()
 
     print("\n查找 40:")
-    print("第1层: 根[50], 40 < 50 -> 查找左子树")
-    print("第2层: 叶子结点[20, 30, 40], 40 == 40 找到!")
+    print("第1层: 根结点按索引键定位到左侧子树")
+    print("第2层: 在叶子结点 [40, 50] 中找到 40")
     print(f"实际结果: {'找到' if tree.search(40) else '未找到'}")
 
     print("\n查找 65:")
-    print("第1层: 根[50], 65 > 50 -> 查找右子树")
-    print("第2层: 叶子结点[60, 70, 80], 65 不在列表中 未找到")
+    print("第1层: 根结点按索引键定位到右侧子树")
+    print("第2层: 落到叶子结点 [60, 70]，65 不在叶子中")
     print(f"实际结果: {'找到' if tree.search(65) else '未找到'}")
 
 

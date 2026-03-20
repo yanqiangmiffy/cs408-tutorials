@@ -23,16 +23,25 @@
 
 ```bash
 # 进入文档目录
-cd docs-site
+cd docs
 
 # 安装依赖
-npm install
+npm ci
 
 # 启动开发服务器
 npm run docs:dev
 
 # 构建生产版本
 npm run docs:build
+```
+
+开发服务器默认会输出一个本地地址，通常是 `http://localhost:5173/`。
+
+如果你想运行 Python 示例代码，请在仓库根目录执行：
+
+```bash
+python code/7_search/7_4_btree.py
+python code/8_sorting/quick_sort.py
 ```
 
 ## 💡 使用建议
