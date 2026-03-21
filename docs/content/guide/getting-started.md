@@ -22,7 +22,7 @@
 | 第7章 | 查找 | 顺序查找、折半查找、BST、AVL、散列表 |
 | 第8章 | 排序 | 常见排序算法实现与复杂度对比 |
 
-除此之外，还补充了 [剑指 Offer](/ch09-offer/)、[408 大题真题](/ch10-408qa/) 和 [冲刺与速记](/ch11-sprint/) 三个专题，分别对应刷题、真题和临考复盘场景。
+除了基础知识目录外，还补充了 [剑指 Offer](/coding-interview-offer/) 专题和 [408 大题真题](/408-exam-questions/) 专题；其中 [冲刺与速记](/408-exam-questions/sprint/) 被收纳在 408 真题目录下，方便按考试场景集中查看。
 
 ## 本地运行
 
@@ -55,12 +55,14 @@ G:\Projects\cs408-tutorials
 │   └── content/           VitePress 文档源目录
 │       ├── .vitepress/    站点配置与构建产物
 │       ├── guide/         使用说明
-│       ├── ch01-intro/    第1章 绪论
-│       ├── ch02-linear/   第2章 线性表
-│       ├── ...
-│       ├── ch09-offer/    剑指 Offer 专题
-│       ├── ch10-408qa/    408 大题真题专题
-│       └── ch11-sprint/   冲刺与速记专题
+│       ├── data-structure-fundamentals/
+│       │   ├── ch01-intro/    第1章 绪论
+│       │   ├── ch02-linear/   第2章 线性表
+│       │   ├── ...
+│       │   └── ch08-sort/     第8章 排序
+│       ├── coding-interview-offer/   剑指 Offer 专题
+│       └── 408-exam-questions/       408 大题真题专题
+│           └── sprint/               冲刺与速记专题
 └── .github/workflows/     GitHub Pages 部署工作流
 ```
 
@@ -68,16 +70,16 @@ G:\Projects\cs408-tutorials
 
 ### 如果你在准备 408
 
-1. 先读 [第1章 绪论](/ch01-intro/)，把复杂度分析框架建立起来。
+1. 先读 [第1章 绪论](/data-structure-fundamentals/ch01-intro/)，把复杂度分析框架建立起来。
 2. 然后顺序阅读线性表、栈队列、串、树、图、查找、排序。
 3. 每章优先看概念、手写过程、复杂度总结，再看完整代码。
 
 ### 如果你在准备面试
 
 1. 先复习链表、树、图、查找和排序。
-2. 再进入 [408 大题真题](/ch10-408qa/) 复盘历年大题模型。
-3. 最后进入 [剑指 Offer](/ch09-offer/) 做分类刷题。
-4. 临考前切到 [冲刺与速记](/ch11-sprint/) 做高频压缩复习。
+2. 再进入 [408 大题真题](/408-exam-questions/) 复盘历年大题模型。
+3. 最后进入 [剑指 Offer](/coding-interview-offer/) 做分类刷题。
+4. 临考前切到 [冲刺与速记](/408-exam-questions/sprint/) 做高频压缩复习。
 5. 对容易手写的题，建议自己脱离文档重新实现一遍。
 
 ## 部署到 GitHub Pages
@@ -105,10 +107,10 @@ G:\Projects\cs408-tutorials
 { text: '第3章 栈与队列', link: 'ch03-stack-queue/' }
 ```
 
-当你当前在 `/ch02-linear/` 页面时，浏览器会把它拼成：
+当你当前在 `/data-structure-fundamentals/ch02-linear/` 页面时，浏览器会把它拼成：
 
 ```text
-/cs408-tutorials/ch02-linear/ch03-stack-queue/
+/cs408-tutorials/data-structure-fundamentals/ch02-linear/ch03-stack-queue/
 ```
 
 这个地址当然不存在，所以会跳到 404。
@@ -116,7 +118,7 @@ G:\Projects\cs408-tutorials
 正确写法应该是绝对路径：
 
 ```ts
-{ text: '第3章 栈与队列', link: '/ch03-stack-queue/' }
+{ text: '第3章 栈与队列', link: '/data-structure-fundamentals/ch03-stack-queue/' }
 ```
 
 ### 2. GitHub Pages 部署后静态资源丢失怎么办？

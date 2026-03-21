@@ -1140,14 +1140,14 @@ def count_connected_components(n: int, edges: list) -> int:
 
 | 题目 | 训练点 |
 |------|--------|
-| [04 重建二叉树](/ch09-offer/04) | 由先序 + 中序还原二叉树 |
-| [22 从上往下打印二叉树](/ch09-offer/22) | 层序遍历 |
-| [23 二叉搜索树的后序遍历序列](/ch09-offer/23) | BST 性质判断 |
-| [24 二叉树中和为某一值的路径](/ch09-offer/24) | DFS + 路径记录 |
-| [39 平衡二叉树](/ch09-offer/39) | 高度计算与平衡判断 |
-| [57 二叉树的下一个结点](/ch09-offer/57) | 中序后继 |
-| [61 序列化二叉树](/ch09-offer/61) | 树的序列化 / 反序列化 |
-| [62 二叉搜索树的第k个结点](/ch09-offer/62) | BST 中序遍历应用 |
+| [04 重建二叉树](/coding-interview-offer/04) | 由先序 + 中序还原二叉树 |
+| [22 从上往下打印二叉树](/coding-interview-offer/22) | 层序遍历 |
+| [23 二叉搜索树的后序遍历序列](/coding-interview-offer/23) | BST 性质判断 |
+| [24 二叉树中和为某一值的路径](/coding-interview-offer/24) | DFS + 路径记录 |
+| [39 平衡二叉树](/coding-interview-offer/39) | 高度计算与平衡判断 |
+| [57 二叉树的下一个结点](/coding-interview-offer/57) | 中序后继 |
+| [61 序列化二叉树](/coding-interview-offer/61) | 树的序列化 / 反序列化 |
+| [62 二叉搜索树的第k个结点](/coding-interview-offer/62) | BST 中序遍历应用 |
 
 ---
 

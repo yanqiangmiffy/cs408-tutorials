@@ -30,17 +30,14 @@ docs/
     ├── index.md
     ├── guide/
     │   └── getting-started.md
-    ├── ch01-intro/
-    ├── ch02-linear/
-    ├── ch03-stack-queue/
-    ├── ch04-string/
-    ├── ch05-tree/
-    ├── ch06-graph/
-    ├── ch07-search/
-    ├── ch08-sort/
-    ├── ch09-offer/
-    ├── ch10-408qa/
-    ├── ch11-sprint/
+    ├── data-structure-fundamentals/
+    │   ├── ch01-intro/
+    │   ├── ch02-linear/
+    │   ├── ...
+    │   └── ch08-sort/
+    ├── coding-interview-offer/
+    ├── 408-exam-questions/
+    │   └── sprint/
     └── public/
 ```
 
@@ -51,7 +48,7 @@ docs/
 部署前重点确认：
 
 - `docs/content/.vitepress/config.mts` 中的 `base` 必须是 `/cs408-tutorials/`
-- 站内导航链接使用绝对路径，例如 `/ch03-stack-queue/`
+- 站内导航链接使用绝对路径，例如 `/data-structure-fundamentals/ch03-stack-queue/`
 - 所有静态资源放在 `docs/content/public/`
 
 部署地址：

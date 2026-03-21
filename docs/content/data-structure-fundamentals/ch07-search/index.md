@@ -626,7 +626,7 @@ class LinearProbingHashTable:
 
 | 题目 | 训练点 |
 |------|--------|
-| [37 数字在排序数组中出现的次数](/ch09-offer/37) | 折半查找边界 |
+| [37 数字在排序数组中出现的次数](/coding-interview-offer/37) | 折半查找边界 |
 | LeetCode 704. 二分查找 | 二分模板 |
 | LeetCode 700. 二叉搜索树中的搜索 | BST 查询 |
 | LeetCode 98. 验证二叉搜索树 | BST 性质 |
