@@ -4,46 +4,135 @@ layout: home
 hero:
   name: "408数据结构"
   text: "Python 全实现"
-  tagline: 王道408全部章节 · 原理讲解 · 代码实现 · 考研要点
+  tagline: 覆盖王道408全部章节 · 原理讲解 · 代码实现 · 真题回顾 · 面试冲刺
   image:
     src: /logo.svg
     alt: 408 数据结构
   actions:
     - theme: brand
-      text: 快速开始 →
+      text: 🚀 快速开始
       link: /guide/getting-started
     - theme: alt
-      text: 查看仓库
+      text: GitHub 仓库
       link: https://github.com/yanqiangmiffy/cs408-tutorials
 
 features:
   - icon: 🧠
     title: 原理先行
-    details: 每章先讲概念、结构和复杂度，再过渡到代码实现，适合复习和打基础。
+    details: 每章先讲概念、结构与复杂度，再过渡到代码实现，适合复习打基础。
   - icon: 🐍
     title: Python 实现
-    details: 全部示例使用 Python，保留清晰注释和可手写的核心版本，便于理解。
+    details: 全部示例使用 Python，配清晰注释与可手写核心版本，便于理解和记忆。
   - icon: 🎯
     title: 考研导向
-    details: 把高频考点、易错点、复杂度结论集中整理，减少后期二次归纳成本。
+    details: 高频考点、易错点、复杂度结论集中整理，减少后期二次归纳成本。
   - icon: 📚
     title: 内容完整
-    details: 覆盖 8 章主线内容，并额外整理了剑指 Offer、408 大题真题和冲刺速记专题，方便刷题和临考复盘。
+    details: 8 章主线 + 剑指 Offer 67 题 + 16 年 408 真题 + 冲刺速记专题，一站搞定。
 ---
 
-## 学习入口
+<!-- 内容统计 -->
+<div class="stat-bar">
+  <div class="stat-item">
+    <div class="stat-number">8</div>
+    <div class="stat-label">主线章节</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">67</div>
+    <div class="stat-label">剑指 Offer 题</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">16</div>
+    <div class="stat-label">年份真题</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">11</div>
+    <div class="stat-label">冲刺速记模块</div>
+  </div>
+</div>
 
-如果你是第一次使用这个站点，建议按下面顺序阅读：
+## 📖 三大模块
 
-1. 从 [快速开始](/guide/getting-started) 了解站点结构、运行方式和目录说明。
-2. 按基础知识主线复习，从 [第1章 绪论](/data-structure-fundamentals/ch01-intro/) 一直读到 [第8章 排序](/data-structure-fundamentals/ch08-sort/)。
-3. 主线过完后，先进入 [408 大题真题](/408-exam-questions/) 回看历年题型。
-4. 再进入 [剑指 Offer](/coding-interview-offer/) 做专题刷题和巩固。
-5. 最后使用 [冲刺与速记](/408-exam-questions/sprint/) 做考前压缩复习。
+<div class="card-grid">
 
-## 章节导航
+<div class="custom-card module-card module-fundamentals">
+  <span class="module-badge">基础知识</span>
+  <div class="card-title">数据结构基础 · 8 章全覆盖</div>
+  <p class="card-desc">线性表、栈与队列、串、树与二叉树、图、查找、排序——从概念到 Python 代码，逐章理解核心数据结构与算法。</p>
+  <div>
+    <span class="tag tag-green">时间复杂度</span>
+    <span class="tag tag-green">手写过程</span>
+    <span class="tag tag-green">考研要点</span>
+  </div>
+  <br/>
+  <a class="card-link" href="/cs408-tutorials/data-structure-fundamentals/">进入学习 →</a>
+</div>
 
-| 模块 | 核心内容 | 入口 |
+<div class="custom-card module-card module-exam">
+  <span class="module-badge">真题专项</span>
+  <div class="card-title">408 大题真题 · 2009-2024</div>
+  <p class="card-desc">16 年数据结构大题逐年剖析，每题含考点判定、解题思路、Python 实现与相似题映射，训练把真题抽象为经典模型的能力。</p>
+  <div>
+    <span class="tag tag-orange">题源判定</span>
+    <span class="tag tag-orange">真题映射</span>
+    <span class="tag tag-orange">难度分级</span>
+  </div>
+  <br/>
+  <a class="card-link" href="/cs408-tutorials/408-exam-questions/">开始回顾 →</a>
+</div>
+
+<div class="custom-card module-card module-offer">
+  <span class="module-badge">面试刷题</span>
+  <div class="card-title">剑指 Offer · 67 道经典题</div>
+  <p class="card-desc">按数组、链表、树、动态规划等专题归类，每题含思路分析、Python 实现与边界处理，适合复习后强化训练和面试备考。</p>
+  <div>
+    <span class="tag tag-purple">专题归类</span>
+    <span class="tag tag-purple">面试高频</span>
+    <span class="tag tag-purple">边界处理</span>
+  </div>
+  <br/>
+  <a class="card-link" href="/cs408-tutorials/coding-interview-offer/">开始刷题 →</a>
+</div>
+
+</div>
+
+## 🗺️ 推荐学习路线
+
+<div class="roadmap">
+  <div class="roadmap-step">
+    <div class="step-icon">1</div>
+    <div class="step-label">快速开始</div>
+    <div class="step-sub">了解站点结构</div>
+  </div>
+  <div class="roadmap-arrow">→</div>
+  <div class="roadmap-step">
+    <div class="step-icon">2</div>
+    <div class="step-label">基础主线</div>
+    <div class="step-sub">第1章 → 第8章</div>
+  </div>
+  <div class="roadmap-arrow">→</div>
+  <div class="roadmap-step">
+    <div class="step-icon">3</div>
+    <div class="step-label">真题回顾</div>
+    <div class="step-sub">408 历年大题</div>
+  </div>
+  <div class="roadmap-arrow">→</div>
+  <div class="roadmap-step">
+    <div class="step-icon">4</div>
+    <div class="step-label">专题训练</div>
+    <div class="step-sub">剑指 Offer 67 题</div>
+  </div>
+  <div class="roadmap-arrow">→</div>
+  <div class="roadmap-step">
+    <div class="step-icon">5</div>
+    <div class="step-label">冲刺速记</div>
+    <div class="step-sub">考前压缩复习</div>
+  </div>
+</div>
+
+## 📂 章节速览
+
+| 章节 | 核心内容 | 入口 |
 |------|----------|------|
 | 第1章 绪论 | 数据结构三要素、时间复杂度、空间复杂度 | [开始阅读](/data-structure-fundamentals/ch01-intro/) |
 | 第2章 线性表 | 顺序表、单链表、双链表、循环链表、静态链表 | [开始阅读](/data-structure-fundamentals/ch02-linear/) |
@@ -53,48 +142,31 @@ features:
 | 第6章 图 | 存储结构、遍历、最小生成树、最短路径、拓扑排序 | [开始阅读](/data-structure-fundamentals/ch06-graph/) |
 | 第7章 查找 | 顺序查找、折半查找、BST、AVL、散列表 | [开始阅读](/data-structure-fundamentals/ch07-search/) |
 | 第8章 排序 | 九类排序算法、手写过程、稳定性与复杂度对比 | [开始阅读](/data-structure-fundamentals/ch08-sort/) |
-| 408 大题真题 | 2009-2024 年真题考点、题源判定与相似题映射 | [开始回顾](/408-exam-questions/) |
-| 剑指 Offer | 67 道经典题按专题归类，适合复习后强化训练 | [开始刷题](/coding-interview-offer/) |
-| 冲刺与速记 | 高频考点、手写模板、易错点、30 天路线与一页纸总结 | [开始冲刺](/408-exam-questions/sprint/) |
 
-## 适合怎么用
+## 💡 怎么用最有效
 
-### 考研复习
+<div class="card-grid card-grid-3">
 
-- 先看每章开头的概念与考点总结。
-- 再关注代码实现中的边界条件和复杂度分析。
-- 最后把表格类结论单独摘出来，形成自己的速记清单。
+<div class="custom-card">
+  <span class="card-icon">🎓</span>
+  <div class="card-title">考研复习</div>
+  <p class="card-desc">先看每章概念与考点 → 再关注代码边界条件与复杂度 → 最后摘出表格结论形成速记清单</p>
+</div>
 
-### 面试准备
+<div class="custom-card">
+  <span class="card-icon">💼</span>
+  <div class="card-title">面试准备</div>
+  <p class="card-desc">重点看链表、树、图和查找 → 配合真题和剑指 Offer 做专题 → 手写链表操作、KMP 和排序</p>
+</div>
 
-- 主线章节优先看链表、栈队列、树、图和查找。
-- 再结合 [408 大题真题](/408-exam-questions/) 和 [剑指 Offer](/coding-interview-offer/) 做专题训练。
-- 临考阶段切换到 [冲刺与速记](/408-exam-questions/sprint/) 做高频回顾。
-- 建议重点手写链表操作、树遍历、KMP、最短路径和几类排序算法。
+<div class="custom-card">
+  <span class="card-icon">⌨️</span>
+  <div class="card-title">代码练习</div>
+  <p class="card-desc">先读文档"手写过程"部分 → 自己默写一版 → 运行 code/ 目录示例对照输出排查理解偏差</p>
+</div>
 
-### 代码练习
+</div>
 
-- 先阅读文档里的“手写过程”部分，再自己默写一版。
-- 运行仓库 `code/` 目录中的示例，对照输出排查理解偏差。
-
-## 仓库结构
-
-```text
-code/                      Python 示例代码
-docs/
-  package.json             文档站点依赖与脚本
-  content/                 VitePress 文档源目录
-    .vitepress/            站点配置
-    guide/                 使用说明
-    data-structure-fundamentals/
-      ch01-intro/ ...      第1章到第8章基础知识
-    coding-interview-offer/  剑指 Offer 专题
-    408-exam-questions/      408 大题真题专题
-      sprint/                冲刺与速记专题
-```
-
-## 使用建议
-
-- GitHub Pages 部署时，站点 `base` 必须和仓库名保持一致。
-- 顶部导航中的站内链接应始终使用完整绝对路径，例如 `/data-structure-fundamentals/ch03-stack-queue/` 或 `/coding-interview-offer/01`，避免在子页面里被拼成错误地址。
-- 如果你准备继续补内容，优先完善每章的“易错点”“复杂度总结”和“手写过程”三部分，这三块最适合复习场景。
+<div class="tip-box">
+💡 <strong>部署提示</strong>：GitHub Pages 部署时，站点 <code>base</code> 必须和仓库名保持一致。站内链接建议使用完整绝对路径，如 <code>/data-structure-fundamentals/ch03-stack-queue/</code>，避免子页面链接拼接错误。
+</div>

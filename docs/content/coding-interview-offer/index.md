@@ -1,87 +1,187 @@
-# 第9章 剑指Offer
-
-> 本章包含《剑指Offer》67道经典面试题的Python实现，涵盖数组、链表、树、动态规划、字符串等常见算法题型。适合面试备考使用。
-
+---
+title: 剑指 Offer
 ---
 
-## 题目列表
+<div class="page-header">
+  <h1>⚔️ 剑指 Offer</h1>
+  <p class="page-desc">67 道经典面试题的 Python 实现，按数据结构与算法类型分专题归类，适合面试备考与算法强化训练。</p>
+</div>
 
-| 题号 | 题目 | 分类 |
-|------|------|------|
-| [01](01.md) | 二维数组中的查找 | 数组 |
-| [02](02.md) | 替换空格 | 字符串 |
-| [03](03.md) | 从尾到头打印链表 | 链表 |
-| [04](04.md) | 重建二叉树 | 树 |
-| [05](05.md) | 用两个栈实现队列 | 栈 |
-| [06](06.md) | 旋转数组的最小数字 | 数组 |
-| [07](07.md) | 斐波那契数列 | 动态规划 |
-| [08](08.md) | 跳台阶 | 动态规划 |
-| [09](09.md) | 变态跳台阶 | 动态规划 |
-| [10](10.md) | 矩形覆盖 | 动态规划 |
-| [11](11.md) | 二进制中1的个数 | 位运算 |
-| [12](12.md) | 数值的整数次方 | 数学 |
-| [13](13.md) | 调整数组顺序使奇数位于偶数前面 | 数组 |
-| [14](14.md) | 链表中倒数第k个结点 | 链表 |
-| [15](15.md) | 反转链表 | 链表 |
-| [16](16.md) | 合并两个排序的链表 | 链表 |
-| [17](17.md) | 树的子结构 | 树 |
-| [18](18.md) | 二叉树的镜像 | 树 |
-| [19](19.md) | 顺时针打印矩阵 | 数组 |
-| [20](20.md) | 包含min函数的栈 | 栈 |
-| [21](21.md) | 栈的压入、弹出序列 | 栈 |
-| [22](22.md) | 从上往下打印二叉树 | 树 |
-| [23](23.md) | 二叉搜索树的后序遍历序列 | 树 |
-| [24](24.md) | 二叉树中和为某一值的路径 | 树 |
-| [25](25.md) | 复杂链表的复制 | 链表 |
-| [26](26.md) | 二叉搜索树与双向链表 | 树 |
-| [27](27.md) | 字符串的排列 | 字符串 |
-| [28](28.md) | 数组中出现次数超过一半的数字 | 数组 |
-| [29](29.md) | 最小的K个数 | 数组 |
-| [30](30.md) | 连续子数组的最大和 | 数组 |
-| [31](31.md) | 整数中1出现的次数 | 数学 |
-| [32](32.md) | 把数组排成最小的数 | 数组 |
-| [33](33.md) | 丑数 | 数学 |
-| [34](34.md) | 第一个只出现一次的字符 | 字符串 |
-| [35](35.md) | 数组中的逆序对 | 数组 |
-| [36](36.md) | 两个链表的第一个公共结点 | 链表 |
-| [37](37.md) | 数字在排序数组中出现的次数 | 数组 |
-| [38](38.md) | 二叉树的深度 | 树 |
-| [39](39.md) | 平衡二叉树 | 树 |
-| [40](40.md) | 数组中只出现一次的数字 | 位运算 |
-| [41](41.md) | 和为S的两个数字 | 数组 |
-| [42](42.md) | 和为S的连续正数序列 | 数组 |
-| [43](43.md) | 左旋转字符串 | 字符串 |
-| [44](44.md) | 翻转单词顺序列 | 字符串 |
-| [45](45.md) | 扑克牌顺子 | 其他 |
-| [46](46.md) | 孩子们的游戏 | 数学 |
-| [47](47.md) | 求1+2+3+...+n | 其他 |
-| [48](48.md) | 不用加减乘除做加法 | 位运算 |
-| [49](49.md) | 把字符串转换成整数 | 字符串 |
-| [50](50.md) | 数组中重复的数字 | 数组 |
-| [51](51.md) | 构建乘积数组 | 数组 |
-| [52](52.md) | 正则表达式匹配 | 字符串 |
-| [53](53.md) | 表示数值的字符串 | 字符串 |
-| [54](54.md) | 字符流中第一个不重复的字符 | 字符串 |
-| [55](55.md) | 链表中环的入口结点 | 链表 |
-| [56](56.md) | 删除链表中重复的结点 | 链表 |
-| [57](57.md) | 二叉树的下一个结点 | 树 |
-| [58](58.md) | 对称的二叉树 | 树 |
-| [59](59.md) | 按之字形顺序打印二叉树 | 树 |
-| [60](60.md) | 把二叉树打印成多行 | 树 |
-| [61](61.md) | 序列化二叉树 | 树 |
-| [62](62.md) | 二叉搜索树的第k个结点 | 树 |
-| [63](63.md) | 数据流中的中位数 | 其他 |
-| [64](64.md) | 滑动窗口的最大值 | 数组 |
-| [65](65.md) | 矩阵中的路径 | 其他 |
-| [66](66.md) | 机器人的运动范围 | 其他 |
-| [67](67.md) | 剪绳子 | 数学 |
+<div class="stat-bar">
+  <div class="stat-item">
+    <div class="stat-number">67</div>
+    <div class="stat-label">道题目</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">7</div>
+    <div class="stat-label">专题分类</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">100%</div>
+    <div class="stat-label">Python 实现</div>
+  </div>
+</div>
 
----
+## 按专题分类
 
-## 刷题建议
+<div class="card-grid">
 
-1. **牛客网刷题**：推荐的OJ平台，支持C++、Java、Python等多语言
-2. **多刷几遍**：第一遍熟悉思路，第二遍优化代码，第三遍总结规律
-3. **手写代码**：面试时通常需要手写，平时多练习
-4. **时间复杂度**：关注时间复杂度，面试官常问
-5. **边界条件**：注意空输入、单元素等边界情况
+<div class="custom-card">
+  <span class="card-icon">📊</span>
+  <div class="card-title">数组</div>
+  <p class="card-desc">二维查找、旋转数组、逆序对、滑动窗口等经典数组问题。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">12 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/01" class="tag tag-green">01 二维数组查找</a>
+    <a href="/cs408-tutorials/coding-interview-offer/06" class="tag tag-green">06 旋转数组</a>
+    <a href="/cs408-tutorials/coding-interview-offer/13" class="tag tag-green">13 调整数组</a>
+    <a href="/cs408-tutorials/coding-interview-offer/28" class="tag tag-green">28 超半数数字</a>
+    <a href="/cs408-tutorials/coding-interview-offer/29" class="tag tag-green">29 最小K个数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/30" class="tag tag-green">30 最大子数组和</a>
+    <a href="/cs408-tutorials/coding-interview-offer/32" class="tag tag-green">32 最小的数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/35" class="tag tag-green">35 逆序对</a>
+    <a href="/cs408-tutorials/coding-interview-offer/37" class="tag tag-green">37 排序数组次数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/50" class="tag tag-green">50 重复数字</a>
+    <a href="/cs408-tutorials/coding-interview-offer/51" class="tag tag-green">51 乘积数组</a>
+    <a href="/cs408-tutorials/coding-interview-offer/64" class="tag tag-green">64 滑动窗口</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">🔗</span>
+  <div class="card-title">链表</div>
+  <p class="card-desc">反转链表、合并排序链表、复杂链表复制、环检测等指针操作。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">8 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/03" class="tag tag-blue">03 尾到头打印</a>
+    <a href="/cs408-tutorials/coding-interview-offer/14" class="tag tag-blue">14 倒数第k个</a>
+    <a href="/cs408-tutorials/coding-interview-offer/15" class="tag tag-blue">15 反转链表</a>
+    <a href="/cs408-tutorials/coding-interview-offer/16" class="tag tag-blue">16 合并链表</a>
+    <a href="/cs408-tutorials/coding-interview-offer/25" class="tag tag-blue">25 复杂链表</a>
+    <a href="/cs408-tutorials/coding-interview-offer/36" class="tag tag-blue">36 公共结点</a>
+    <a href="/cs408-tutorials/coding-interview-offer/55" class="tag tag-blue">55 环入口</a>
+    <a href="/cs408-tutorials/coding-interview-offer/56" class="tag tag-blue">56 删除重复</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">🌳</span>
+  <div class="card-title">树</div>
+  <p class="card-desc">重建二叉树、遍历变体、BST 转换、序列化等树形结构经典题。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">15 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/04" class="tag tag-orange">04 重建二叉树</a>
+    <a href="/cs408-tutorials/coding-interview-offer/17" class="tag tag-orange">17 树的子结构</a>
+    <a href="/cs408-tutorials/coding-interview-offer/18" class="tag tag-orange">18 镜像</a>
+    <a href="/cs408-tutorials/coding-interview-offer/22" class="tag tag-orange">22 层序遍历</a>
+    <a href="/cs408-tutorials/coding-interview-offer/23" class="tag tag-orange">23 后序判断</a>
+    <a href="/cs408-tutorials/coding-interview-offer/24" class="tag tag-orange">24 路径和</a>
+    <a href="/cs408-tutorials/coding-interview-offer/26" class="tag tag-orange">26 BST转链表</a>
+    <a href="/cs408-tutorials/coding-interview-offer/38" class="tag tag-orange">38 深度</a>
+    <a href="/cs408-tutorials/coding-interview-offer/39" class="tag tag-orange">39 平衡判定</a>
+    <a href="/cs408-tutorials/coding-interview-offer/57" class="tag tag-orange">57 下一个结点</a>
+    <a href="/cs408-tutorials/coding-interview-offer/58" class="tag tag-orange">58 对称</a>
+    <a href="/cs408-tutorials/coding-interview-offer/59" class="tag tag-orange">59 之字形</a>
+    <a href="/cs408-tutorials/coding-interview-offer/60" class="tag tag-orange">60 多行打印</a>
+    <a href="/cs408-tutorials/coding-interview-offer/61" class="tag tag-orange">61 序列化</a>
+    <a href="/cs408-tutorials/coding-interview-offer/62" class="tag tag-orange">62 第k个结点</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">📦</span>
+  <div class="card-title">栈 / 队列</div>
+  <p class="card-desc">栈实现队列、包含 min 的栈、压入弹出序列、数据流中位数。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">4 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/05" class="tag tag-purple">05 栈实现队列</a>
+    <a href="/cs408-tutorials/coding-interview-offer/20" class="tag tag-purple">20 min栈</a>
+    <a href="/cs408-tutorials/coding-interview-offer/21" class="tag tag-purple">21 压入弹出</a>
+    <a href="/cs408-tutorials/coding-interview-offer/63" class="tag tag-purple">63 中位数</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">🔤</span>
+  <div class="card-title">字符串</div>
+  <p class="card-desc">替换空格、排列组合、正则匹配、左旋与翻转等字符处理问题。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">10 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/02" class="tag tag-red">02 替换空格</a>
+    <a href="/cs408-tutorials/coding-interview-offer/27" class="tag tag-red">27 字符串排列</a>
+    <a href="/cs408-tutorials/coding-interview-offer/34" class="tag tag-red">34 首个唯一字符</a>
+    <a href="/cs408-tutorials/coding-interview-offer/42" class="tag tag-red">42 连续正数序列</a>
+    <a href="/cs408-tutorials/coding-interview-offer/43" class="tag tag-red">43 左旋字符串</a>
+    <a href="/cs408-tutorials/coding-interview-offer/44" class="tag tag-red">44 翻转单词</a>
+    <a href="/cs408-tutorials/coding-interview-offer/49" class="tag tag-red">49 字符串转整数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/52" class="tag tag-red">52 正则匹配</a>
+    <a href="/cs408-tutorials/coding-interview-offer/53" class="tag tag-red">53 数值字符串</a>
+    <a href="/cs408-tutorials/coding-interview-offer/54" class="tag tag-red">54 不重复字符</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">📈</span>
+  <div class="card-title">动态规划</div>
+  <p class="card-desc">斐波那契系列、跳台阶、丑数、剪绳子等经典 DP 问题。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">9 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/07" class="tag tag-green">07 斐波那契</a>
+    <a href="/cs408-tutorials/coding-interview-offer/08" class="tag tag-green">08 跳台阶</a>
+    <a href="/cs408-tutorials/coding-interview-offer/09" class="tag tag-green">09 变态跳台阶</a>
+    <a href="/cs408-tutorials/coding-interview-offer/10" class="tag tag-green">10 矩形覆盖</a>
+    <a href="/cs408-tutorials/coding-interview-offer/31" class="tag tag-green">31 整数中1</a>
+    <a href="/cs408-tutorials/coding-interview-offer/33" class="tag tag-green">33 丑数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/46" class="tag tag-green">46 约瑟夫</a>
+    <a href="/cs408-tutorials/coding-interview-offer/47" class="tag tag-green">47 求和</a>
+    <a href="/cs408-tutorials/coding-interview-offer/67" class="tag tag-green">67 剪绳子</a>
+  </div>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">🧩</span>
+  <div class="card-title">其他</div>
+  <p class="card-desc">位运算、矩阵操作、数学技巧、回溯搜索等综合性问题。</p>
+  <div style="font-size:0.8rem; color:var(--muted-text); margin-bottom:0.5rem;">9 道题</div>
+  <div>
+    <a href="/cs408-tutorials/coding-interview-offer/11" class="tag">11 二进制中1</a>
+    <a href="/cs408-tutorials/coding-interview-offer/12" class="tag">12 整数次方</a>
+    <a href="/cs408-tutorials/coding-interview-offer/19" class="tag">19 顺时针矩阵</a>
+    <a href="/cs408-tutorials/coding-interview-offer/40" class="tag">40 唯一数字</a>
+    <a href="/cs408-tutorials/coding-interview-offer/41" class="tag">41 和为S两数</a>
+    <a href="/cs408-tutorials/coding-interview-offer/45" class="tag">45 扑克牌顺子</a>
+    <a href="/cs408-tutorials/coding-interview-offer/48" class="tag">48 不用运算做加法</a>
+    <a href="/cs408-tutorials/coding-interview-offer/65" class="tag">65 矩阵路径</a>
+    <a href="/cs408-tutorials/coding-interview-offer/66" class="tag">66 机器人运动</a>
+  </div>
+</div>
+
+</div>
+
+## 💡 刷题建议
+
+<div class="card-grid card-grid-3">
+
+<div class="custom-card">
+  <span class="card-icon">🔄</span>
+  <div class="card-title">多刷几遍</div>
+  <p class="card-desc">第一遍熟悉思路，第二遍优化代码，第三遍总结规律和模板。</p>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">✏️</span>
+  <div class="card-title">手写代码</div>
+  <p class="card-desc">面试通常需要手写，平时多练习白板编程，注意代码规范。</p>
+</div>
+
+<div class="custom-card">
+  <span class="card-icon">⚠️</span>
+  <div class="card-title">边界条件</div>
+  <p class="card-desc">空输入、单元素、重复值等边界情况是面试官最爱追问的点。</p>
+</div>
+
+</div>
+
+<div class="tip-box tip-purple">
+🎯 <strong>推荐 OJ 平台</strong>：<a href="https://www.nowcoder.com/" target="_blank">牛客网</a> 支持 C++、Java、Python 等多语言在线判题，配合本站解析效果更佳。
+</div>

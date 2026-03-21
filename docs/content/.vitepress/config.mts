@@ -41,10 +41,25 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '快速开始', link: '/guide/getting-started' },
+      { text: '基础知识', link: '/data-structure-fundamentals/' },
       { text: '章节', items: chapterNav },
     ],
 
     sidebar: {
+      '/data-structure-fundamentals/': [{
+        text: '数据结构基础',
+        items: [
+          { text: '总目录', link: '/data-structure-fundamentals/' },
+          { text: '第1章 绪论', link: '/data-structure-fundamentals/ch01-intro/' },
+          { text: '第2章 线性表', link: '/data-structure-fundamentals/ch02-linear/' },
+          { text: '第3章 栈与队列', link: '/data-structure-fundamentals/ch03-stack-queue/' },
+          { text: '第4章 串', link: '/data-structure-fundamentals/ch04-string/' },
+          { text: '第5章 树与二叉树', link: '/data-structure-fundamentals/ch05-tree/' },
+          { text: '第6章 图', link: '/data-structure-fundamentals/ch06-graph/' },
+          { text: '第7章 查找', link: '/data-structure-fundamentals/ch07-search/' },
+          { text: '第8章 排序', link: '/data-structure-fundamentals/ch08-sort/' },
+        ],
+      }],
       '/data-structure-fundamentals/ch01-intro/': [{
         text: '第1章 绪论',
         items: [
