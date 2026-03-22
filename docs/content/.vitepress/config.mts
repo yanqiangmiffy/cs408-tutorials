@@ -43,6 +43,8 @@ export default defineConfig({
       { text: '快速开始', link: '/guide/getting-started' },
       { text: '基础知识', link: '/data-structure-fundamentals/' },
       { text: '章节', items: chapterNav },
+      { text: '剑指 Offer', link: '/coding-interview-offer/' },
+      { text: '408 真题', link: '/408-exam-questions/' },
     ],
 
     sidebar: {
