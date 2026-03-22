@@ -340,15 +340,84 @@ if __name__ == "__main__":
 
 ## 5. next数组优化（nextval）
 
-**核心思想**：当 `pattern[j] == pattern[next[j]]` 时，回退到next[j]仍然会失败，直接回退到next[next[j]]。
+**核心思想**：当 `pattern[j] == pattern[next[j]]` 时，就算先回退到 `next[j]`，下一次往往还是会拿同一个字符去比较，属于重复失败。  
+因此可以继续向前跳，直接使用更优的回退位置：
 
-**示例**：模式串 `"AAA"`
+```text
+若 pattern[j] == pattern[next[j]]
+则 nextval[j] = nextval[next[j]]
+
+若 pattern[j] != pattern[next[j]]
+则 nextval[j] = next[j]
+```
+
+### 手算 nextval 的推荐顺序
+
+1. 先算普通 `next` 数组。
+2. 再从左到右计算 `nextval`。
+3. 每一步只看两件事：`pattern[j]` 和 `pattern[next[j]]` 是否相等。
+4. 相等就继续“沿着 nextval 往前跳”；不相等就直接取 `next[j]`。
+
+### nextval 手算例子（详细）
+
+**模式串**：`"AAAAB"`
+
+先算普通 `next` 数组：
+
+| j | 0 | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|---|
+| pattern[j] | A | A | A | A | B |
+| next[j] | -1 | 0 | 1 | 2 | 3 |
+
+接着从左到右计算 `nextval`：
+
+- `j=0`：按定义，`nextval[0] = -1`
+- `j=1`：`next[1] = 0`，比较 `pattern[1] = 'A'` 和 `pattern[0] = 'A'`
+  两者相等，说明如果失配后只退到 0，主串当前字符还会再次和 `'A'` 比较，属于重复比较  
+  所以 `nextval[1] = nextval[0] = -1`
+- `j=2`：`next[2] = 1`，比较 `pattern[2] = 'A'` 和 `pattern[1] = 'A'`
+  仍然相等，继续向前跳  
+  所以 `nextval[2] = nextval[1] = -1`
+- `j=3`：`next[3] = 2`，比较 `pattern[3] = 'A'` 和 `pattern[2] = 'A'`
+  仍然相等，继续向前跳  
+  所以 `nextval[3] = nextval[2] = -1`
+- `j=4`：`next[4] = 3`，比较 `pattern[4] = 'B'` 和 `pattern[3] = 'A'`
+  这次不相等，说明回退到 3 是有意义的，因为接下来比较的字符变了  
+  所以 `nextval[4] = next[4] = 3`
+
+整理成表：
+
+| j | pattern[j] | next[j] | 比较对象 `pattern[next[j]]` | 是否相等 | nextval[j] |
+|---|------------|---------|-----------------------------|----------|------------|
+| 0 | A | -1 | - | - | -1 |
+| 1 | A | 0 | A | 相等 | -1 |
+| 2 | A | 1 | A | 相等 | -1 |
+| 3 | A | 2 | A | 相等 | -1 |
+| 4 | B | 3 | A | 不相等 | 3 |
+
+**最终结果**：`nextval = [-1, -1, -1, -1, 3]`
+
+### 为什么这个例子能体现优化
+
+假设模式串已经匹配到 `j=3`，此时要拿主串当前字符去和 `pattern[3] = 'A'` 比较，但结果失配。
+
+- 如果使用普通 `next`，会发生：`j = 3 -> 2 -> 1 -> 0 -> -1`
+- 这意味着主串当前这个字符，会连续和多个 `'A'` 比较很多次
+- 但这些比较其实没有意义，因为 `pattern[3]`、`pattern[2]`、`pattern[1]`、`pattern[0]` 都是 `'A'`
+
+而使用 `nextval` 时：
+
+- `j = 3 -> -1`
+- 直接跳过这些“必然重复失败”的 `'A'`
+- 所以 `nextval` 的本质，就是**跳过会导致重复比较的位置**
+
+### 极简示例：模式串 `"AAA"`
 
 | j | pattern[j] | next[j] | nextval[j] |
 |---|------------|---------|------------|
 | 0 | A | -1 | -1 |
-| 1 | A | 0 | -1 (A==A，取next[0]) |
-| 2 | A | 1 | -1 (A==A，取nextval[1]) |
+| 1 | A | 0 | -1 (`A==A`，取 `nextval[0]`) |
+| 2 | A | 1 | -1 (`A==A`，取 `nextval[1]`) |
 
 **优势**：减少不必要的比较。
 
@@ -356,14 +425,18 @@ if __name__ == "__main__":
 def compute_nextval(pattern: str) -> list:
     """计算优化后的nextval数组"""
     m = len(pattern)
+    if m == 0:
+        return []
+
     next_arr = compute_next(pattern)
     nextval = [-1] * m
 
     for j in range(1, m):
-        if pattern[j] == pattern[next_arr[j]]:
-            nextval[j] = next_arr[next_arr[j]]
+        k = next_arr[j]
+        if k != -1 and pattern[j] == pattern[k]:
+            nextval[j] = nextval[k]
         else:
-            nextval[j] = next_arr[j]
+            nextval[j] = k
 
     return nextval
 ```
