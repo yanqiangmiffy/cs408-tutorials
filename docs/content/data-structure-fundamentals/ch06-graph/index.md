@@ -551,11 +551,260 @@ def floyd(graph: GraphMatrix) -> tuple:
 
 ---
 
-## 5. 拓扑排序 & 关键路径 <a id="topo"></a>
+## 5. 判环、拓扑排序 & 关键路径 <a id="topo"></a>
+
+### 图中如何判断有环
+
+先分清题目里的图类型：
+
+| 图类型 | 常用方法 | 判断依据 | 适合场景 |
+|--------|----------|----------|----------|
+| **有向图** | 拓扑排序 | 若最终输出顶点数 `< V`，说明有环 | 课程依赖、任务调度 |
+| **有向图** | DFS | 若访问到“正在递归栈中”的顶点，说明出现回边 | 手写推导、解释回边 |
+| **无向图** | Union-Find Set | 加边时若两端已在同一集合，则成环 | 边集处理、Kruskal同类题 |
+
+**一句话记忆**：
+
+- 有向图判环，优先想到 **拓扑排序 / DFS回边**。
+- 无向图判环，优先想到 **并查集**。
+
+### 方法一：用拓扑排序判断有向图是否有环
+
+**核心思想**：如果图是 DAG，就一定能不断删去入度为 0 的顶点；如果删到一半删不动了，还剩下一批顶点，说明这些顶点互相依赖，形成了环。
+
+**手算示例**：
+
+```
+有向图:
+0 → 1
+    ↓
+    2 → 3
+    ↑
+    └── 1
+
+边集写法:
+0→1, 1→2, 2→1, 2→3
+
+入度统计:
+0:0
+1:2   (来自0和2)
+2:1   (来自1)
+3:1   (来自2)
+
+初始: queue=[0]，因为只有0的入度为0
+
+第1步: 出队0，输出[0]
+      删除边0→1，1的入度从2变成1
+      此时 queue=[]
+
+队列已经空了，但顶点1、2、3还没删完
+说明剩余部分无法继续产生入度为0的点
+原因就是 1 ↔ 2 形成了环
+
+结论:
+输出顶点数 = 1 < 4
+所以图中有环
+```
+
+```python
+from collections import deque
+
+def has_cycle_directed_topo(graph: GraphAdjList) -> bool:
+    """
+    用拓扑排序判断有向图是否有环
+    True表示有环，False表示无环
+    """
+    n = graph.n
+    in_degree = [0] * n
+
+    for u in range(n):
+        for v, _ in graph.adj_list[u]:
+            in_degree[v] += 1
+
+    queue = deque([u for u in range(n) if in_degree[u] == 0])
+    count = 0
+
+    while queue:
+        u = queue.popleft()
+        count += 1
+
+        for v, _ in graph.adj_list[u]:
+            in_degree[v] -= 1
+            if in_degree[v] == 0:
+                queue.append(v)
+
+    return count != n
+```
+
+### 方法二：用 DFS 判断有向图是否有环
+
+**核心思想**：DFS 过程中把顶点分成 3 种状态：
+
+- `0`：未访问
+- `1`：正在访问（已经进递归栈，还没回退）
+- `2`：访问完成
+
+如果从当前顶点还能走到一个状态为 `1` 的顶点，说明回到了当前递归路径上的老点，也就是出现了 **回边**，因此有环。
+
+**手算示例**：
+
+```
+仍看刚才的有向图:
+0→1, 1→2, 2→1, 2→3
+
+初始状态:
+state = [0, 0, 0, 0]
+
+从0开始DFS:
+
+dfs(0):
+  state[0] = 1   # 0正在访问
+  走到1
+
+dfs(1):
+  state[1] = 1   # 1正在访问
+  走到2
+
+dfs(2):
+  state[2] = 1   # 2正在访问
+  查看邻居1
+  发现 state[1] = 1
+
+这说明:
+当前递归路径是 0 → 1 → 2
+而2又能回到“还没退栈”的1
+所以出现回边 2 → 1
+
+结论: 图中有环
+```
+
+```python
+def has_cycle_directed_dfs(graph: GraphAdjList) -> bool:
+    """
+    用DFS判断有向图是否有环
+    state: 0=未访问, 1=正在访问, 2=访问完成
+    """
+    n = graph.n
+    state = [0] * n
+
+    def dfs(u: int) -> bool:
+        state[u] = 1
+
+        for v, _ in graph.adj_list[u]:
+            if state[v] == 1:
+                return True  # 找到回边，说明有环
+            if state[v] == 0 and dfs(v):
+                return True
+
+        state[u] = 2
+        return False
+
+    for u in range(n):
+        if state[u] == 0 and dfs(u):
+            return True
+
+    return False
+```
+
+> 补充：无向图也能用 DFS 判环，但要额外排除“回到父节点”这种正常回退。  
+> 考研里更常见的组合是：**有向图用 DFS 回边判环，无向图用并查集判环**。
+
+### 方法三：用 Union-Find Set 判断无向图是否有环
+
+**核心思想**：把每个连通分量看成一个集合。每加入一条边 `(u, v)`：
+
+- 如果 `u` 和 `v` 本来就在同一集合，那么这条边一加就会形成环
+- 如果不在同一集合，就把两个集合合并
+
+**手算示例**：
+
+```
+无向图边按顺序加入:
+(0,1), (1,2), (2,3), (0,3)
+
+初始:
+{0}, {1}, {2}, {3}
+
+加入(0,1):
+find(0) != find(1)
+合并后:
+{0,1}, {2}, {3}
+
+加入(1,2):
+find(1) = find(0)
+find(2) = 2
+不在同一集合，继续合并
+合并后:
+{0,1,2}, {3}
+
+加入(2,3):
+find(2) = find(0)
+find(3) = 3
+不在同一集合，继续合并
+合并后:
+{0,1,2,3}
+
+加入(0,3):
+find(0) = find(3)
+说明0和3早就连通
+现在再加一条(0,3)，就会形成环
+
+结论: 无向图有环
+```
+
+```python
+class UnionFind:
+    """并查集（路径压缩 + 按秩合并）"""
+
+    def __init__(self, n: int):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+
+    def find(self, x: int) -> int:
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+
+    def union(self, x: int, y: int) -> bool:
+        root_x = self.find(x)
+        root_y = self.find(y)
+
+        if root_x == root_y:
+            return False
+
+        if self.rank[root_x] < self.rank[root_y]:
+            self.parent[root_x] = root_y
+        elif self.rank[root_x] > self.rank[root_y]:
+            self.parent[root_y] = root_x
+        else:
+            self.parent[root_y] = root_x
+            self.rank[root_x] += 1
+
+        return True
+
+    def connected(self, x: int, y: int) -> bool:
+        return self.find(x) == self.find(y)
+
+
+def has_cycle_undirected_union_find(n: int, edges: list[tuple[int, int]]) -> bool:
+    """
+    用并查集判断无向图是否有环
+    这里直接传边集更方便，避免无向图邻接表中的重复边
+    """
+    uf = UnionFind(n)
+
+    for u, v in edges:
+        if uf.connected(u, v):
+            return True
+        uf.union(u, v)
+
+    return False
+```
 
 ### 拓扑排序（Kahn算法）
 
-**核心思想**：对DAG（有向无环图）排序，使得每条边(u→v)满足u在v之前。用于解决依赖关系问题。
+**核心思想**：对 DAG（有向无环图）排序，使得每条边 `(u→v)` 满足 `u` 在 `v` 之前。  
+它不仅能输出依赖顺序，也能顺便判环：**如果无法输出全部顶点，说明图中有环**。
 
 **手写示例**：
 
@@ -639,6 +888,7 @@ def topological_sort(graph: GraphAdjList) -> list:
 |------|---------|
 | **邻接矩阵 vs 邻接表** | 稠密图用矩阵，稀疏图用邻接表 |
 | **BFS vs DFS** | BFS层序遍历，DFS深度优先 |
+| **图中判环** | 先看有向图还是无向图，再选拓扑/DFS/并查集 |
 | **Prim vs Kruskal** | Prim适合稠密图，Kruskal适合稀疏图 |
 | **Dijkstra vs Floyd** | Dijkstra单源，Floyd全源 |
 | **拓扑排序** | 只能用于DAG，可检测环 |
@@ -647,6 +897,7 @@ def topological_sort(graph: GraphAdjList) -> list:
 
 | 易错点 | 正确做法 |
 |--------|---------|
+| 判环方法混用 | 有向图优先用拓扑排序或DFS回边；无向图优先用并查集 |
 | Dijkstra负权边 | 不能处理，改用Bellman-Ford |
 | Prim算法初始 | min_dist[start]=0，其他为∞ |
 | Kruskal成环判断 | 用并查集，connected(u,v) |
@@ -657,6 +908,8 @@ def topological_sort(graph: GraphAdjList) -> list:
 
 | 场景 | 算法 | 原因 |
 |------|------|------|
+| 判断课程依赖是否冲突 | 拓扑排序 / DFS判环 | 检测有向环 |
+| 判断无向边集是否成环 | 并查集 | 合并集合时快速判断 |
 | 无权图最短路 | BFS | 天然层序就是距离 |
 | 最短路径(无负权) | Dijkstra | 单源高效 |
 | 全源最短路 | Floyd | 代码简洁 |
@@ -673,6 +926,9 @@ def topological_sort(graph: GraphAdjList) -> list:
 | 邻接矩阵存储 | O(V²) | O(V²) | 稠密图 |
 | 邻接表存储 | O(V+E) | O(V+E) | 稀疏图 |
 | BFS/DFS | O(V+E) | O(V) | 图遍历 |
+| DFS判环（有向图） | O(V+E) | O(V) | 找回边 |
+| 拓扑判环（有向图） | O(V+E) | O(V) | 统计是否能删完点 |
+| 并查集判环（无向图） | O(Eα(V)) | O(V) | 边集判环 |
 | Prim算法 | O(V²) | O(V) | 稠密图MST |
 | Prim(堆优化) | O(ElogV) | O(V) | 通用MST |
 | Kruskal算法 | O(ElogE) | O(V) | 稀疏图MST |
@@ -757,6 +1013,7 @@ if __name__ == "__main__":
 
 - 邻接矩阵与邻接表的适用场景和复杂度比较。
 - BFS / DFS 的访问顺序、`visited` 数组的使用。
+- 图中判环时，先判断是 **有向图** 还是 **无向图**，再选择拓扑排序、DFS 或并查集。
 - Prim 与 Kruskal 的适用图类型和复杂度。
 - Dijkstra 不能处理负权边，Floyd 可以处理负权边但不能有负环。
 - 拓扑排序只适用于 DAG，关键路径建立在 AOE 网基础上。
@@ -769,5 +1026,7 @@ if __name__ == "__main__":
 | LeetCode 547. 省份数量 | 图遍历 / 并查集 |
 | LeetCode 207. 课程表 | 拓扑排序判环 |
 | LeetCode 210. 课程表 II | 拓扑序输出 |
+| LeetCode 684. 冗余连接 | 并查集判无向环 |
+| LeetCode 685. 冗余连接 II | 有向图判环 + 入度分析 |
 | LeetCode 743. 网络延迟时间 | 单源最短路 |
 | LeetCode 1584. 连接所有点的最小费用 | 最小生成树 |
